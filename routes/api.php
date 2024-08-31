@@ -3,8 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\doctorController;
-
+use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -23,5 +22,5 @@ Route::get('/patients/{name}', [PatientController::class, 'show'])->missing(func
 });
 
 
-Route::post('/doctors', [DoctorController::class, 'store']);
-Route::get('/doctors', [DoctorController::class, 'index']);
+Route::post('/doctors', [doctorController::class, 'store']);
+Route::get('/doctors', [doctorController::class, 'index']);
