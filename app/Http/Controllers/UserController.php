@@ -16,9 +16,8 @@ class UserController extends Controller
     }
 
     public function listUsers(){
-        return response()->json(
-            'list of us'
-        );
+        $users = User::where('type','2')->get();
+        return $users;
     }
 
     /**
@@ -35,14 +34,22 @@ class UserController extends Controller
 
         $user->save();
 
-        return $this->sendResponse($user->toArray(), 'Patient created successfully.');
+        return $this->sendResponse($user->toArray(), 'Doctor created successfully.');
     }
 
 
     public function storeUser(Request $request){
         // add validation
 
-        return $request;
+        $user = new User();
+        $user->name = $request->name;
+        $user->type = 2;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+
+        $user->save();
+
+        return $this->sendResponse($user->toArray(), 'User created successfully.');
     }
     
 
