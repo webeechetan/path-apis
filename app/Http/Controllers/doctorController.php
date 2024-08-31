@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\doctor;
+use App\Models\Doctor;
 use Illuminate\Support\Facades\Validator;
 
-class doctorController extends Controller
+class DoctorController extends Controller
 
 
 {
@@ -16,7 +16,7 @@ class doctorController extends Controller
      */
     public function index()
     {
-        $doctors = doctor::all();
+        $doctors = Doctor::all();
 
         return $this->sendResponse($doctors->toArray(), 'Doctors retrieved successfully.');
     }
@@ -45,7 +45,7 @@ class doctorController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $doctor = doctor::create($input);
+        $doctor = Doctor::create($input);
 
         return $this->sendResponse($doctor->toArray(), 'Doctors created successfully.');
     }
@@ -53,7 +53,7 @@ class doctorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(doctor $doctor)
+    public function show(Doctor $doctor)
     {
         return $this->sendResponse($doctor->toArray(), 'Doctor retrieved successfully.');
     }

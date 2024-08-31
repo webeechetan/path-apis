@@ -23,5 +23,5 @@ Route::get('/patients/{name}', [PatientController::class, 'show'])->missing(func
 });
 
 
-Route::post('/doctors', [doctorController::class, 'store']);
-Route::get('/doctors', [doctorController::class, 'index']);
+Route::post('/doctors', [DoctorController::class, 'store']);
+Route::get('/doctors', [DoctorController::class, 'index']);
