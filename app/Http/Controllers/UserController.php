@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -12,12 +14,12 @@ class UserController extends Controller
      */
     public function listDoctors(){
         $doctors = User::where('type','1')->get();
-        return $doctors;
+        return $this->sendResponse($doctors->toArray(), 'Doctors retrieved successfully.');
     }
 
     public function listUsers(){
         $users = User::where('type','2')->get();
-        return $users;
+        return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
     }
 
     /**
@@ -26,28 +28,57 @@ class UserController extends Controller
     public function storeDoctor(Request $request){
         // add validation
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->type = 1;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
+        // $doctor = new User();
+        $input = $request->all();
 
-        $user->save();
+        $validator = Validator::make($input, [
 
-        return $this->sendResponse($user->toArray(), 'Doctor created successfully.');
+        // $doctor->name = $request->name;
+        // $doctor->type = 1;
+        // $doctor->phone = $request->phone;
+        // $doctor->email = $request->email;
+        // $doctor->save();
+
+        'name' => 'required',
+        'type' => 'required',
+    
+    ]);
+
+    if ($validator->fails()) {
+        return $this->sendError('Validation Error.', $validator->errors());
+    }
+    
+        $doctor = User::create($input);
+
+        return $this->sendResponse($doctor->toArray(), 'Doctor created successfully.');
     }
 
 
     public function storeUser(Request $request){
         // add validation
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->type = 2;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
+        // $user = new User();
+        // $user->name = $request->name;
+        // $user->type = 2;
+        // $user->phone = $request->phone;
+        // $user->email = $request->email;
 
-        $user->save();
+        // $user->save();
+
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'type' => 'required',
+
+    
+        ]);
+    
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        
+            $user = User::create($input);
 
         return $this->sendResponse($user->toArray(), 'User created successfully.');
     }
