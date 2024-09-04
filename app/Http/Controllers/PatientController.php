@@ -69,7 +69,8 @@ class PatientController extends Controller
      */
     public function update(Request $request, Patient $patient)
     {
-        //
+        // $patient->update($request->validated());
+
     }
 
     /**
@@ -77,6 +78,10 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        //
+        return response()->json([
+            'message'=>'Patient Deleted',
+            'Data'=>$patient->delete()
+        ],200);
+
     }
 }

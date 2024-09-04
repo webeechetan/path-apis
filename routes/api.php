@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TestController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -13,7 +14,10 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/patients', [PatientController::class, 'store']);
 Route::get('/patients', [PatientController::class, 'index']);
-Route::get('/patients/{name}', [PatientController::class, 'show'])->missing(function () {
+Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
+
+
+Route::get('/patients/{id}', [PatientController::class, 'show'])->missing(function () {
     return response()->json([
         'success' => false ,
         'message' => 'Patient not found', 
@@ -29,3 +33,6 @@ Route::post('/doctors', [UserController::class, 'storeDoctor']);
 Route::get('/users', [UserController::class, 'listUsers']);
 Route::post('/users', [UserController::class, 'storeUser']);
 
+// test routes
+Route::post('/tests', [TestController::class, 'store']);
+Route::get('/tests', [TestController::class, 'index']);
