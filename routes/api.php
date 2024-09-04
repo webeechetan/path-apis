@@ -17,7 +17,6 @@ Route::get('/patients', [PatientController::class, 'index']);
 Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 
-
 Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->missing(function () {
     return response()->json([
         'success' => false ,
@@ -29,11 +28,17 @@ Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->miss
 // doctors routes
 Route::get('/doctors', [UserController::class, 'listDoctors']);
 Route::post('/doctors', [UserController::class, 'storeDoctor']);
+Route::delete('/doctors/{user}', [UserController::class, 'destroyDoctor']);
+
 
 // other users routes
 Route::get('/users', [UserController::class, 'listUsers']);
 Route::post('/users', [UserController::class, 'storeUser']);
+Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
+
 
 // test routes
 Route::post('/tests', [TestController::class, 'store']);
 Route::get('/tests', [TestController::class, 'index']);
+Route::delete('/tests/{test}', [TestController::class, 'destroy']);
+Route::put('/tests/{test}', [TestController::class, 'update']);

@@ -111,8 +111,23 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroyUser(User $user)
     {
-        //
-    }
+        try {
+            $user->delete();
+            return $this->sendResponse($user->toArray(), 'User deleted successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('User not found.');
+        }    }
+
+
+        public function destroyDoctor(User $doctor)
+        { 
+            
+            try {
+                $doctor->delete();
+                return $this->sendResponse($doctor->toArray(), 'Doctor deleted successfully.');
+            } catch (\Exception $e) {
+                return $this->sendError('Doctor not found.');
+            }    }
 }
