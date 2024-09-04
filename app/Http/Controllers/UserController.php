@@ -11,13 +11,15 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function listDoctors(){
-        $doctors = User::where('type','1')->get();
-        return $doctors;
+        return User::where('type','1')->get();
     }
 
     public function listUsers(){
-        return response()->json(
-            'list of us'
+        $users = User::where('type','0')->get();
+
+        $this->sendResponse(
+            $users,
+            'Users created successfully'
         );
     }
 
@@ -44,7 +46,7 @@ class UserController extends Controller
 
         return $request;
     }
-    
+
 
     /**
      * Display the specified resource.
