@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
@@ -12,10 +13,18 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+
+//signup routes
+Route::post('/signup', [AuthController::class, 'signup']);
+
+
+
 // Patient routes
 
 Route::post('/patients', [PatientController::class, 'store']);
-Route::get('/patients', [PatientController::class, 'index']);
+Route::get('/patients', [PatientController::class, 'index'])->middleware('auth:sanctum');
+
 Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 
@@ -46,10 +55,3 @@ Route::delete('/tests/{test}', [TestController::class, 'destroy']);
 Route::put('/tests/{test}', [TestController::class, 'update']);
 
 
-//signup routes
-Route::post('/signups', [SignupController::class, 'store']);
-Route::get('/signups', [SignupController::class, 'index']);
-
-//login routes
-Route::post('/logins', [LoginController::class, 'store']);
-Route::get('/logins', [LoginController::class, 'index']);
