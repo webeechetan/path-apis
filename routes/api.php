@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\LoginController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -42,3 +44,12 @@ Route::post('/tests', [TestController::class, 'store']);
 Route::get('/tests', [TestController::class, 'index']);
 Route::delete('/tests/{test}', [TestController::class, 'destroy']);
 Route::put('/tests/{test}', [TestController::class, 'update']);
+
+
+//signup routes
+Route::post('/signups', [SignupController::class, 'store']);
+Route::get('/signups', [SignupController::class, 'index']);
+
+//login routes
+Route::post('/logins', [LoginController::class, 'store']);
+Route::get('/logins', [LoginController::class, 'index']);
