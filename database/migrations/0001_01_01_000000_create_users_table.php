@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('type')->default('1')->comment('1 = Dr , 2 = Other ');
+            $table->string('type')->default('1')->comment('1 = Dr , 2 = Other, 3 = Super Admin , 4 = Admin');
             $table->string('password');
             $table->timestamps();
         });
