@@ -13,10 +13,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
+ 
 
 //signup routes
 Route::post('/signup', [AuthController::class, 'signup']);
+
+//login routes
+Route::post('/login', [AuthController::class, 'login']);
 
 
 
@@ -24,7 +27,6 @@ Route::post('/signup', [AuthController::class, 'signup']);
 
 Route::post('/patients', [PatientController::class, 'store']);
 Route::get('/patients', [PatientController::class, 'index'])->middleware('auth:sanctum');
-
 Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 
@@ -35,6 +37,7 @@ Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->miss
         'data' => null
     ], 404);
 });
+
 
 // doctors routes
 Route::get('/doctors', [UserController::class, 'listDoctors']);

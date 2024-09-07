@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function listDoctors(){
         $doctors = User::where('type','1')->get();
         return $this->sendResponse($doctors->toArray(), 'Doctors retrieved successfully.');
@@ -22,26 +19,20 @@ class UserController extends Controller
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function storeDoctor(Request $request){
-        // add validation
-
-        // $doctor = new User();
+        
         $input = $request->all();
-
+        $input['type'] = 1;
+        $input['password'] = bcrypt('defaultPassword');
         $validator = Validator::make($input, [
 
-        // $doctor->name = $request->name;
-        // $doctor->type = 1;
-        // $doctor->phone = $request->phone;
-        // $doctor->email = $request->email;
-        // $doctor->save();
-
         'name' => 'required',
-        'type' => 'required',
-    
+        'type' => 'required',  
+        'password' => 'required'
     ]);
 
     if ($validator->fails()) {
@@ -53,25 +44,18 @@ class UserController extends Controller
         return $this->sendResponse($doctor->toArray(), 'Doctor created successfully.');
     }
 
+//----------------------------------------------------------------------------------------------------
+
 
     public function storeUser(Request $request){
-        // add validation
-
-        // $user = new User();
-        // $user->name = $request->name;
-        // $user->type = 2;
-        // $user->phone = $request->phone;
-        // $user->email = $request->email;
-
-        // $user->save();
-
+        
         $input = $request->all();
-
+        $input['type'] = 2;
+        $input['password'] = bcrypt('defaultPassword');
         $validator = Validator::make($input, [
             'name' => 'required',
             'type' => 'required',
-
-    
+            'password' => 'required'
         ]);
     
         if ($validator->fails()) {
@@ -84,33 +68,18 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(Request $request, User $user)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
     public function destroyUser(User $user)
     {
         try {
@@ -121,13 +90,13 @@ class UserController extends Controller
         }    }
 
 
-        public function destroyDoctor(User $doctor)
-        { 
+    public function destroyDoctor(User $doctor)
+    { 
             
-            try {
-                $doctor->delete();
-                return $this->sendResponse($doctor->toArray(), 'Doctor deleted successfully.');
-            } catch (\Exception $e) {
-                return $this->sendError('Doctor not found.');
-            }    }
+        try {
+            $doctor->delete();
+            return $this->sendResponse($doctor->toArray(), 'Doctor deleted successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Doctor not found.');
+        }    }
 }

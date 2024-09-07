@@ -35,7 +35,7 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
                 'success' => true,
-                'message' => 'User created successfully.',
+                'message' => 'User Signup Successfully.',
                 'data' => $user,
                 'token' => $token
             ], 201);
@@ -45,6 +45,39 @@ class AuthController extends Controller
                 'message' => $e->getMessage(),
                 'data' => null
             ], 400);
+        }
+    }
+
+    
+    public function login(Request $request) {
+        $input = $request->all();
+    
+        $validator = Validator::make($input, [
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+    
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+    
+        // Attempt to authenticate the user
+        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'User logged in successfully.',
+                'data' => $user,
+                'token' => $token
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid email or password.',
+                'data' => null
+            ], 401);
         }
     }
 }
