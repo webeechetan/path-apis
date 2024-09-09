@@ -14,20 +14,15 @@ class TestController extends Controller
     public function index()
     {
         $tests = Test::all();
-
         return $this->sendResponse($tests->toArray(), 'Tests retrieved successfully.');
-       }
+    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
             'test' => 'required',
-            'testprice' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -36,26 +31,22 @@ class TestController extends Controller
 
         $test = Test::create($input);
 
-        return $this->sendResponse($test->toArray(), 'Test created successfully.');    }
+        return $this->sendResponse($test->toArray(), 'Test created successfully.');   
+    }
 
-    /**
-     * Display the specified resource.
-     */
+ 
     public function show(Test $test)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+ 
     public function update(Request $request, Test $test)
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
             'test' => 'required',
-            'testprice' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -63,15 +54,14 @@ class TestController extends Controller
         }
 
         $test->test = $input['test'];
-        $test->subtest = $input['subtest'];
-        $test->testprice = $input['testprice'];
+
         $test->save();
 
-        return $this->sendResponse($test->toArray(), 'Test updated successfully.');    }
+        return $this->sendResponse($test->toArray(), 'Test updated successfully.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
+
     public function destroy(Test $test)
     {
         try {

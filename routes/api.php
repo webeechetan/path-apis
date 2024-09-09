@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SubTestController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -57,4 +59,9 @@ Route::get('/tests', [TestController::class, 'index']);
 Route::delete('/tests/{test}', [TestController::class, 'destroy']);
 Route::put('/tests/{test}', [TestController::class, 'update']);
 
+// Subtest routes
+Route::post('/subtests', [SubTestController::class, 'store']);
+Route::get('/subtests', [SubTestController::class, 'index']);
+Route::delete('/subtests/{subtest}', [SubTestController::class, 'destroy']);
+Route::put('/subtests/{subtest}', [SubTestController::class, 'update']);
 
