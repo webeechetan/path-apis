@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subtests', function (Blueprint $table) {
+        Schema::create('sub_tests', function (Blueprint $table) {
             $table->id();
-            $table->string('subtest');
+            $table->foreignId('test_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->string('price');
             $table->timestamps();
         });
+
+        // $subtest->name;
     }
 
     /**
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subtests');
+        Schema::dropIfExists('sub_tests');
     }
 };

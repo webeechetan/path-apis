@@ -53,15 +53,19 @@ Route::post('/users', [UserController::class, 'storeUser']);
 Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
 
 
-// test routes
-Route::post('/tests', [TestController::class, 'store']);
-Route::get('/tests', [TestController::class, 'index']);
-Route::delete('/tests/{test}', [TestController::class, 'destroy']);
-Route::put('/tests/{test}', [TestController::class, 'update']);
 
-// Subtest routes
-Route::post('/subtests', [SubTestController::class, 'store']);
-Route::get('/subtests', [SubTestController::class, 'index']);
-Route::delete('/subtests/{subtest}', [SubTestController::class, 'destroy']);
-Route::put('/subtests/{subtest}', [SubTestController::class, 'update']);
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    // test routes
+    Route::post('/tests', [TestController::class, 'store']);
+    Route::get('/tests', [TestController::class, 'index']);
+    Route::delete('/tests/{test}', [TestController::class, 'destroy']);
+    Route::put('/tests/{test}', [TestController::class, 'update']);
+    
+    // Subtest routes
+    Route::post('/sub-tests', [SubTestController::class, 'store']);
+    Route::get('/sub-tests', [SubTestController::class, 'index']);
+    Route::delete('/sub-tests/{subtest}', [SubTestController::class, 'destroy']);
+    Route::put('/sub-tests/{subtest}', [SubTestController::class, 'update']);
+});
+
 

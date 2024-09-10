@@ -27,7 +27,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $input['name'];
         $user->email = $input['email'];
-        $user->type = 3;
+        $user->type = 4;
         $user->password = Hash::make($input['password']);
 
         try {

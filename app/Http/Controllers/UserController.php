@@ -90,13 +90,13 @@ class UserController extends Controller
         }    }
 
 
-    public function destroyDoctor(User $doctor)
+    public function destroyDoctor(User $user)
     { 
-            
         try {
-            $doctor->delete();
-            return $this->sendResponse($doctor->toArray(), 'Doctor deleted successfully.');
+            $user->delete();
+            return $this->sendResponse($user->toArray(), 'Doctor deleted successfully.');
         } catch (\Exception $e) {
             return $this->sendError('Doctor not found.');
-        }    }
+        }    
+    }
 }

@@ -13,7 +13,7 @@ class TestController extends Controller
      */
     public function index()
     {
-        $tests = Test::all();
+        $tests = Test::with('subTests')->get();
         return $this->sendResponse($tests->toArray(), 'Tests retrieved successfully.');
     }
 
