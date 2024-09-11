@@ -52,15 +52,16 @@ class SubtestController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'subtest' => 'required',
+          'test_id' => 'required',
+            'name' => 'required',
             'price' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
-        $subtest->subtest = $input['subtest'];
+        $subtest->test_id = $input['test_id'];
+        $subtest->name = $input['name'];
         $subtest->price = $input['price'];
 
         $subtest->save();
