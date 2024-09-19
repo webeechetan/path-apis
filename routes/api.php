@@ -46,11 +46,28 @@ Route::get('/doctors', [UserController::class, 'listDoctors']);
 Route::post('/doctors', [UserController::class, 'storeDoctor']);
 Route::delete('/doctors/{user}', [UserController::class, 'destroyDoctor']);
 
+Route::get('/doctors/{user:name}', [UserController::class, 'show'])->missing(function () {
+    return response()->json([
+        'success' => false ,
+        'message' => 'Doctors not found', 
+        'data' => null
+    ], 404);
+});
+
 
 // other users routes
 Route::get('/users', [UserController::class, 'listUsers']);
 Route::post('/users', [UserController::class, 'storeUser']);
 Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
+
+Route::get('/users/{user:name}', [UserController::class, 'show'])->missing(function () {
+    return response()->json([
+        'success' => false ,
+        'message' => 'Users not found', 
+        'data' => null
+    ], 404);
+});
+
 
 
 

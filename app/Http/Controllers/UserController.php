@@ -70,7 +70,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        //
+        return $this->sendResponse($user->toArray(), 'Doctors retrieved successfully.');
     }
 
    
