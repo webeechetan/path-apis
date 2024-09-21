@@ -11,28 +11,25 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function  index(Request $request)
+    public function index(Request $request)
     {
-        $test  = $request->query('test');
-        $amount = $request->query('amount');
+        
+        $date = $request->query('date'); // New filter for date
 
-        if ($test) {
-            $patients = Patient::where('test', $test)->get();
+      
+        // Filter by date
+        if ($date) {
+            $patients = Patient::whereDate('created_at', $date)->get();
             return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
         }
 
-        if ($amount) {
-            $patients = Patient::where('amount', $amount)->get();
-            return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
-        }
-
+        // Get all patients if no filters
         $patients = Patient::all();
-
         return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created patient.
      */
     public function store(Request $request)
     {
@@ -54,7 +51,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified patient.
      */
     public function show(Patient $patient)
     {
@@ -62,7 +59,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified patient.
      */
     public function update(Request $request, Patient $patient)
     {
@@ -87,7 +84,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified patient from storage.
      */
     public function destroy(Patient $patient)
     {

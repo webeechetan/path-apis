@@ -28,7 +28,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Patient routes
 
 Route::post('/patients', [PatientController::class, 'store']);
-Route::get('/patients', [PatientController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/patients', [PatientController::class, 'index'])->middleware('auth:sanctum');;
 Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 
@@ -84,5 +84,4 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/sub-tests/{subtest}', [SubTestController::class, 'destroy']);
     Route::put('/sub-tests/{subtest}', [SubTestController::class, 'update']);
 });
-
 
