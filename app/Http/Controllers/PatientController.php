@@ -13,9 +13,16 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $doctorId = $request->query('dr_name');
         $date = $request->query('date'); // New filter for date
 
+        if ($doctorId) {
+            $query = Patient::where('dr_name', $doctorId);
+
+            $patients = $query->get();
+        return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
+  
+        }    
       
         // Filter by date
         if ($date) {
