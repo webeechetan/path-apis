@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\Paginator;
 
 class PatientController extends Controller
 {
@@ -13,14 +14,16 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
-        $doctorId = $request->query('dr_name');
-        $date = $request->query('date'); // New filter for date
+        $doctor_name = $request->query('dr_name');
+        $date = $request->query('date');
 
-        if ($doctorId) {
-            $query = Patient::where('dr_name', $doctorId);
+        if ($doctor_name) {
+            $query = Patient::whereHas('doctorDetails', function ($q) use ($doctor_name) {
+                $q->where('name',$doctor_name);
+            });
 
             $patients = $query->get();
-        return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
+            return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
   
         }    
       
@@ -31,8 +34,8 @@ class PatientController extends Controller
         }
 
         // Get all patients if no filters
-        $patients = Patient::all();
-        return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
+        $patients = Patient::with('subTestDetails','doctorDetails','refByDetails')->paginate(10);
+        return $this->sendResponse($patients, 'Patients retrieved successfully.');
     }
 
     /**
@@ -44,8 +47,7 @@ class PatientController extends Controller
 
         $validator = Validator::make($input, [
             'name' => 'required',
-            'test' => 'required',
-            'amount' => 'required',
+            'sub_test_id' => 'required',
         ]);
 
         if ($validator->fails()) {

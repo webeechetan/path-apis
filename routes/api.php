@@ -9,13 +9,12 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SubTestController;
+use App\Http\Middleware\CheckAuthToken;
 
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
- 
 
 //signup routes
 Route::post('/signup', [AuthController::class, 'signup']);
@@ -25,12 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-// Patient routes
 
-Route::post('/patients', [PatientController::class, 'store']);
-Route::get('/patients', [PatientController::class, 'index'])->middleware('auth:sanctum');;
-Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
-Route::put('/patients/{patient}', [PatientController::class, 'update']);
 
 Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->missing(function () {
     return response()->json([
@@ -41,11 +35,6 @@ Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->miss
 });
 
 
-// doctors routes
-Route::get('/doctors', [UserController::class, 'listDoctors']);
-Route::post('/doctors', [UserController::class, 'storeDoctor']);
-Route::delete('/doctors/{user}', [UserController::class, 'destroyDoctor']);
-
 Route::get('/doctors/{user:name}', [UserController::class, 'show'])->missing(function () {
     return response()->json([
         'success' => false ,
@@ -54,11 +43,6 @@ Route::get('/doctors/{user:name}', [UserController::class, 'show'])->missing(fun
     ], 404);
 });
 
-
-// other users routes
-Route::get('/users', [UserController::class, 'listUsers']);
-Route::post('/users', [UserController::class, 'storeUser']);
-Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
 
 Route::get('/users/{user:name}', [UserController::class, 'show'])->missing(function () {
     return response()->json([
@@ -70,8 +54,7 @@ Route::get('/users/{user:name}', [UserController::class, 'show'])->missing(funct
 
 
 
-
-Route::group(['middleware' => 'auth:sanctum'], function(){
+Route::middleware(['auth:sanctum'])->group(function () {
     // test routes
     Route::post('/tests', [TestController::class, 'store']);
     Route::get('/tests', [TestController::class, 'index']);
@@ -83,5 +66,27 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/sub-tests', [SubTestController::class, 'index']);
     Route::delete('/sub-tests/{subtest}', [SubTestController::class, 'destroy']);
     Route::put('/sub-tests/{subtest}', [SubTestController::class, 'update']);
+
+    // other users routes
+    Route::get('/users', [UserController::class, 'listUsers']);
+    Route::post('/users', [UserController::class, 'storeUser']);
+    Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
+
+    // doctors routes
+    Route::get('/doctors', [UserController::class, 'listDoctors']);
+    Route::post('/doctors', [UserController::class, 'storeDoctor']);
+    Route::delete('/doctors/{user}', [UserController::class, 'destroyDoctor']);
+
+    // Patient routes
+
+    Route::post('/patients', [PatientController::class, 'store']);
+    Route::get('/patients', [PatientController::class, 'index']);
+    Route::delete('/patients/{patient}', [PatientController::class, 'destroy']);
+    Route::put('/patients/{patient}', [PatientController::class, 'update']);
 });
+
+
+Route::get('/set-unauthorized-msg-for-login-route', function () {
+    return response()->json(['message' => 'Unauthorized'], 401);
+})->name('login');
 

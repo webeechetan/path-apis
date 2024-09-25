@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('age')->nullable();
-            $table->string('dr_name')->nullable();
-            $table->string('ref_by')->nullable();
-            $table->string('test');
-            $table->string('amount');
+            $table->string('doctor_id')->nullable();
+            $table->string('ref_by_id')->nullable();
+            $table->string('sub_test_id');
             $table->string('amount_paid')->nullable();
             $table->string('amount_paid_online')->nullable();
             $table->string('amount_paid_cash')->nullable();
