@@ -6,7 +6,7 @@ use App\Models\SubTest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class SubtestController extends Controller
+class SubTestController extends Controller
 {
     public function index()
     {
