@@ -55,18 +55,7 @@ Route::get('/users/{user:name}', [UserController::class, 'show'])->missing(funct
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    // test routes
-    Route::post('/tests', [TestController::class, 'store']);
-    Route::get('/tests', [TestController::class, 'index']);
-    Route::delete('/tests/{test}', [TestController::class, 'destroy']);
-    Route::put('/tests/{test}', [TestController::class, 'update']);
     
-    // Subtest routes
-    Route::post('/sub-tests', [SubTestController::class, 'store']);
-    Route::get('/sub-tests', [SubTestController::class, 'index']);
-    Route::delete('/sub-tests/{subtest}', [SubTestController::class, 'destroy']);
-    Route::put('/sub-tests/{subtest}', [SubTestController::class, 'update']);
-
     // other users routes
     Route::get('/users', [UserController::class, 'listUsers']);
     Route::post('/users', [UserController::class, 'storeUser']);

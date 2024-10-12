@@ -34,7 +34,7 @@ class PatientController extends Controller
         }
 
         // Get all patients if no filters
-        $patients = Patient::with('subTestDetails','doctorDetails','refByDetails')->paginate(10);
+        $patients = Patient::with('doctorDetails','refByDetails')->paginate(10);
         return $this->sendResponse($patients, 'Patients retrieved successfully.');
     }
 
@@ -47,7 +47,10 @@ class PatientController extends Controller
 
         $validator = Validator::make($input, [
             'name' => 'required',
-            'sub_test_id' => 'required',
+            'amount' => 'required',
+            'test' => 'required',
+            'ref_by_id' => 'required',
+            'doctor_id' => 'required',
         ]);
 
         if ($validator->fails()) {
