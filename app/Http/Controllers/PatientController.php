@@ -38,6 +38,28 @@ class PatientController extends Controller
         return $this->sendResponse($patients, 'Patients retrieved successfully.');
     }
 
+    public function getByMonth(Request $request)
+{
+    // Extract and validate 'year' and 'month' from query parameters
+    $validator = Validator::make($request->all(), [
+        'year' => 'required|integer',
+        'month' => 'required|integer|between:1,12',
+    ]);
+
+    if ($validator->fails()) {
+        return $this->sendError('Validation Error.', $validator->errors());
+    }
+
+    // Fetch patients based on the year and month with pagination
+    $patients = Patient::whereYear('created_at', $request->query('year'))
+        ->whereMonth('created_at', $request->query('month'))
+        ->with('doctorDetails', 'refByDetails')
+        ->paginate(10); // Adjust the number of results per page if needed
+
+    // Return the paginated result directly, no need to convert to an array
+    return $this->sendResponse($patients, 'Patients retrieved successfully by month.');
+}
+
     /**
      * Store a newly created patient.
      */

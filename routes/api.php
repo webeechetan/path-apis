@@ -5,10 +5,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\SignupController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SubTestController;
 use App\Http\Middleware\CheckAuthToken;
 
 
@@ -22,8 +18,7 @@ Route::post('/signup', [AuthController::class, 'signup']);
 //login routes
 Route::post('/login', [AuthController::class, 'login']);
 
-
-
+Route::get('/patients/by-month', [PatientController::class, 'getByMonth']);
 
 
 Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->missing(function () {
