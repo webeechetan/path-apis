@@ -18,9 +18,16 @@ Route::post('/signup', [AuthController::class, 'signup']);
 //login routes
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/patients/by-month', [PatientController::class, 'getByMonth']);
+Route::get('/by-doctor/{user}/{date?}', [PatientController::class, 'getByDoctor'])
+    ->missing(function () {
+        return response()->json([
+            'success' => false ,
+            'message' => 'Doctor not found', 
+            'data' => null
+        ], 404);
+    });
 
-
+ 
 Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->missing(function () {
     return response()->json([
         'success' => false ,

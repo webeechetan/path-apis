@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
@@ -38,27 +40,25 @@ class PatientController extends Controller
         return $this->sendResponse($patients, 'Patients retrieved successfully.');
     }
 
-    public function getByMonth(Request $request)
-{
-    // Extract and validate 'year' and 'month' from query parameters
-    $validator = Validator::make($request->all(), [
-        'year' => 'required|integer',
-        'month' => 'required|integer|between:1,12',
-    ]);
+    public function getByDoctor(User $user, $date = null)
+    {
+        $query = Patient::where('doctor_id', $user->id);
+        if ($date) {
+            $query->whereMonth('created_at', Carbon::parse($date)->month);
+        }
+        $total_commission = $query->sum('rcless');
+        // $patients = $query->get();
+        
 
-    if ($validator->fails()) {
-        return $this->sendError('Validation Error.', $validator->errors());
+        $patients = $query->paginate(10);
+
+        return $this->sendResponse(
+            [
+                'patients' => $patients->toArray(),
+                'total_commission' => $total_commission
+            ], 'Patients retrieved successfully.'
+        );
     }
-
-    // Fetch patients based on the year and month with pagination
-    $patients = Patient::whereYear('created_at', $request->query('year'))
-        ->whereMonth('created_at', $request->query('month'))
-        ->with('doctorDetails', 'refByDetails')
-        ->paginate(10); // Adjust the number of results per page if needed
-
-    // Return the paginated result directly, no need to convert to an array
-    return $this->sendResponse($patients, 'Patients retrieved successfully by month.');
-}
 
     /**
      * Store a newly created patient.
