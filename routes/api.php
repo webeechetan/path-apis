@@ -27,6 +27,15 @@ Route::get('/by-doctor/{user}/{date?}', [PatientController::class, 'getByDoctor'
         ], 404);
     });
 
+Route::get('/by-refby/{user}/{date?}', [PatientController::class, 'getRefBy'])
+    ->missing(function () {
+        return response()->json([
+            'success' => false ,
+            'message' => 'Ref-by not found', 
+            'data' => null
+        ], 404);
+    });
+
  
 Route::get('/patients/{patient:name}', [PatientController::class, 'show'])->missing(function () {
     return response()->json([

@@ -59,6 +59,25 @@ class PatientController extends Controller
             ], 'Patients retrieved successfully.'
         );
     }
+    public function getRefBy(User $user, $date = null)
+    {
+        $query = Patient::where('ref_by_id', $user->id);
+        if ($date) {
+            $query->whereMonth('created_at', Carbon::parse($date)->month);
+        }
+        $total_commission = $query->sum('rcless');
+        // $patients = $query->get();
+        
+
+        $patients = $query->paginate(10);
+
+        return $this->sendResponse(
+            [
+                'patients' => $patients->toArray(),
+                'total_commission' => $total_commission
+            ], 'Patients retrieved successfully.'
+        );
+    }
 
     /**
      * Store a newly created patient.
