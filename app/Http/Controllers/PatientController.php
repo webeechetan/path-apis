@@ -47,6 +47,11 @@ class PatientController extends Controller
             $query->whereMonth('created_at', Carbon::parse($date)->month);
         }
         $total_commission = $query->sum('rcless');
+        $total_amount = $query->sum('amount');
+        $total_amount_paid = $query->sum('amount_paid');
+        $total_amount_paid_online = $query->sum('amount_paid_online');
+        $total_amount_paid_cash = $query->sum('amount_paid_cash');
+        $total_amount_due = $query->sum('amount_due');
         // $patients = $query->get();
         
 
@@ -55,7 +60,12 @@ class PatientController extends Controller
         return $this->sendResponse(
             [
                 'patients' => $patients->toArray(),
-                'total_commission' => $total_commission
+                'total_commission' => $total_commission,
+                'total_amount' => $total_amount,
+                'total_amount_paid' => $total_amount_paid,
+                'total_amount_paid_online' => $total_amount_paid_online,
+                'total_amount_paid_cash' => $total_amount_paid_cash,
+                'total_amount_due' => $total_amount_due,
             ], 'Patients retrieved successfully.'
         );
     }
@@ -66,15 +76,23 @@ class PatientController extends Controller
             $query->whereMonth('created_at', Carbon::parse($date)->month);
         }
         $total_commission = $query->sum('rcless');
-        // $patients = $query->get();
-        
+        $total_amount = $query->sum('amount');
+        $total_amount_paid = $query->sum('amount_paid');
+        $total_amount_paid_online = $query->sum('amount_paid_online');
+        $total_amount_paid_cash = $query->sum('amount_paid_cash');
+        $total_amount_due = $query->sum('amount_due');
 
         $patients = $query->paginate(10);
 
         return $this->sendResponse(
             [
                 'patients' => $patients->toArray(),
-                'total_commission' => $total_commission
+                'total_commission' => $total_commission,
+                'total_amount' => $total_amount,
+                'total_amount_paid' => $total_amount_paid,
+                'total_amount_paid_online' => $total_amount_paid_online,
+                'total_amount_paid_cash' => $total_amount_paid_cash,
+                'total_amount_due' => $total_amount_due,
             ], 'Patients retrieved successfully.'
         );
     }
