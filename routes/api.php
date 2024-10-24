@@ -4,9 +4,13 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PdfController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAuthToken;
 
+Route::get('/generatedpdf', [PdfController::class, 'generatedpdf'])->name('generated-pdf');
+Route::get('/doctorpdf', [PdfController::class, 'doctorpdf'])->name('doctor-pdf');
 
 Route::get('/user', function (Request $request) {
     return $request->user();

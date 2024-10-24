@@ -26,6 +26,8 @@
                         </div>
                         @if (Route::has('login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
+                                <a href="{{ route('generated-pdf') }}" class="btn btn-primary mb-4" style="margin-right: 20px">Download PDF</a>
+                                <a href="{{ route('doctor-pdf') }}" class="btn btn-primary mb-4">Download doctor PDF</a>
                                 @auth
                                     <a
                                         href="{{ url('/dashboard') }}"
