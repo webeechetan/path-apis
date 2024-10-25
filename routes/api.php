@@ -94,3 +94,8 @@ Route::get('/set-unauthorized-msg-for-login-route', function () {
     return response()->json(['message' => 'Unauthorized'], 401);
 })->name('login');
 
+
+// Pdf Routes
+
+Route::get('/pdf/today', [PdfController::class, 'today']);
+

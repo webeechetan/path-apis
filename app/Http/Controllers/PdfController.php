@@ -1,15 +1,48 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class PdfController extends Controller
 {
+
+    public function today(){
+
+       
+        $patients = Patient::whereDate('created_at', Carbon::today())->with(['doctorDetails', 'refByDetails'])->get();
+
+        $doctors_ids = $patients->pluck('doctor_id')->unique();
+
+        $doctors = User::whereIn('id', $doctors_ids)->get();
+
+        $doctors_data = [];
+
+        foreach($doctors as $doctor){
+            $doctor_data = [];
+            $doctor_data['name'] = $doctor->name;
+            $doctor_data['patients'] = $patients->where('doctor_id', $doctor->id)->count();
+            $doctor_data['rcless'] = $patients->where('doctor_id', $doctor->id)->sum('rcless');
+            $doctor_data['amount'] = $patients->where('doctor_id', $doctor->id)->sum('amount');
+            $doctor_data['type'] = $doctor->type;
+            $doctors_data[] = $doctor_data;
+        }
+
+        // return $doctors_data;
+        
+        $pdf = Pdf::loadView('todays-data', ['patients' => $patients,'doctors_data'=>$doctors_data]);
+        $path = 'pdf/today/'. Carbon::today()->format('Y-m-d') . '.pdf';
+        Storage::delete($path);
+        Storage::put($path, $pdf->output());
+        return $pdf->download('todays-data.pdf');
+
+    }
+
     public function generatedpdf()
     {
         $patients = Patient::all();

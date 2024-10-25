@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 
 class UserController extends Controller
 {
@@ -72,7 +73,7 @@ class UserController extends Controller
     {
         return $this->sendResponse($user->toArray(), 'Doctors retrieved successfully.');
     }
-
+ 
    
     public function update(Request $request, User $user)
     {

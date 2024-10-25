@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\SubTest;
-use App\Models\Test;
+use Carbon\Carbon;
 
 class Patient extends Model
 {
@@ -37,4 +36,11 @@ class Patient extends Model
     {
         return $this->belongsTo(User::class, 'ref_by_id');
     }
+
+    // public static function getDoctorsForTadays(){
+    //     $patients = Patient::whereDate('created_at', Carbon::today())->with(['doctorDetails', 'refByDetails'])->get();
+    //     $doctors_ids = $patients->pluck('doctor_id')->unique();
+    //     $doctors = User::whereIn('id', $doctors_ids)->get();
+    //     return $doctors;
+    // }
 }
