@@ -20,7 +20,7 @@ class PatientController extends Controller
         $date = $request->query('date');
 
         if ($doctor_name) {
-            $query = Patient::whereHas('doctorDetails', function ($q) use ($doctor_name) {
+            $query = Patient::with('doctorDetails','refByDetails')->whereHas('doctorDetails', function ($q) use ($doctor_name) {
                 $q->where('name',$doctor_name);
             });
 
@@ -31,7 +31,7 @@ class PatientController extends Controller
       
         // Filter by date
         if ($date) {
-            $patients = Patient::whereDate('created_at', $date)->get();
+            $patients = Patient::with('doctorDetails','refByDetails')->whereDate('created_at', $date)->get();
             return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
         }
 
