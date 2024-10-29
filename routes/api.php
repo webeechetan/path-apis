@@ -9,8 +9,8 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAuthToken;
 
-Route::get('/generatedpdf', [PdfController::class, 'generatedpdf'])->name('generated-pdf');
-Route::get('/doctorpdf', [PdfController::class, 'doctorpdf'])->name('doctor-pdf');
+// Route::get('/generatedpdf', [PdfController::class, 'generatedpdf'])->name('generated-pdf');
+// Route::get('/doctorpdf', [PdfController::class, 'doctorpdf'])->name('doctor-pdf');
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -73,11 +73,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     // other users routes
     Route::get('/users', [UserController::class, 'listUsers']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
     Route::post('/users', [UserController::class, 'storeUser']);
     Route::delete('/users/{user}', [UserController::class, 'destroyUser']);
 
     // doctors routes
     Route::get('/doctors', [UserController::class, 'listDoctors']);
+    Route::get('/doctors/{user}', [UserController::class, 'listDoctors']);
+    Route::get('/doctors/{user}', [UserController::class, 'showDoctors']);
+
     Route::post('/doctors', [UserController::class, 'storeDoctor']);
     Route::delete('/doctors/{user}', [UserController::class, 'destroyDoctor']);
 

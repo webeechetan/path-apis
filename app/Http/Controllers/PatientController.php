@@ -16,17 +16,26 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
+  
         $doctor_name = $request->query('dr_name');
+        $doctor_id = $request->query('doctor_id');
         $date = $request->query('date');
 
         if ($doctor_name) {
             $query = Patient::with('doctorDetails','refByDetails')->whereHas('doctorDetails', function ($q) use ($doctor_name) {
                 $q->where('name',$doctor_name);
             });
+       
 
             $patients = $query->get();
             return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
-  
+        }    
+        if ($doctor_id) {
+            $query = Patient::with('doctorDetails','refByDetails')->whereHas('doctorDetails', function ($q) use ($doctor_id) {
+                $q->where('id',$doctor_id);
+            });
+            $patients = $query->get();
+            return $this->sendResponse($patients->toArray(), 'Patients retrieved successfully.');
         }    
       
         // Filter by date

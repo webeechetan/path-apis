@@ -69,15 +69,23 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user)
-    {
-        return $this->sendResponse($user->toArray(), 'Doctors retrieved successfully.');
+    public function show($user_id)
+    {  
+        $user = User::where("type",'2')->where("id",$user_id)->first();
+            if ($user) return $this->sendResponse($user, 'Ref-By retrieved successfully.');
+             else if($user == null) return $this->sendResponse([], 'No Ref-By found.');
+              else  return $this->sendError($user, 'Something went wrong.');
+        
     }
- 
+    public function showDoctors($user_id)
+    {  
+        $user = User::where("type",'1')->where("id",$user_id)->first();
+        return $this->sendResponse($user, 'Doctor retrieved successfully.');
+    }
    
     public function update(Request $request, User $user)
     {
-        //
+        
     }
 
   
